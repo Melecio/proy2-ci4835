@@ -1,5 +1,6 @@
 !.gitignore
 
+*.swp
 *.class
 s_rmifs
 c_rmifs
