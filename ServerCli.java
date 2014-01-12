@@ -45,7 +45,7 @@ public class ServerCli {
 				
 				if (cmdLine.hasOption("help")) {
 					new HelpFormatter().
-						printHelp(ServerCli.class.getCanonicalName(), options);
+						printHelp("Server", options);
 					System.exit(0);
 				}
 
@@ -63,7 +63,7 @@ public class ServerCli {
 
 			} catch (Exception e) {
 				System.out.println("Unrecognized option. Please, try with:");
-				new HelpFormatter().printHelp(ServerCli.class.getCanonicalName(), options);
+				new HelpFormatter().printHelp("Server", options);
 				System.exit(0);
 			}
 	}
