@@ -50,7 +50,7 @@ public class ServerCli {
 				}
 
 				if (cmdLine.hasOption("host")) {
-					this.host = cmdLine.getOptionValue("ip");
+					this.host = cmdLine.getOptionValue("host");
 				}
 
 				if (cmdLine.hasOption("l")) {
