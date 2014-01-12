@@ -29,7 +29,7 @@ public class ClientCli {
 			CommandLine cmdLine = null;
 			String info = "";
 
-			info = "Name of users and passwords file"
+			info = "Name of users and passwords file";
 			options.addOption("f", "users", true, info);
 
 			info = "DNS name or IP where file server is running";
@@ -38,8 +38,8 @@ public class ClientCli {
 			info = "Port used by rmiregistry";
 			options.addOption("p", "port", true, info);
 
-			info = "Name of the commands file. "
-			info = "Needed if client wants to run commands automatically"
+			info = "Name of the commands file. ";
+			info = "Needed if client wants to run commands automatically";
 			options.addOption("c", true, info);
 
 			info = "Print Help";
