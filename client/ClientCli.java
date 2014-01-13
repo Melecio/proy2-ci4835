@@ -13,10 +13,10 @@ import java.io.OutputStream;
 
 public class ClientCli {
 
-	private String host = "localhost";  
-	private int port;
-	private String usersFile;
-	private String commandsFile; 
+	private String host = "";  
+	private String port = "";
+	private String usersFile = "";
+	private String commandsFile = ""; 
 
 	/**
      * Class constructor
@@ -52,7 +52,7 @@ public class ClientCli {
 				
 				if (cmdLine.hasOption("help")) {
 					new HelpFormatter().
-						printHelp("Server", options);
+						printHelp("Client", options);
 					System.exit(0);
 				}
 
@@ -65,7 +65,7 @@ public class ClientCli {
 				}
 				
 				if (cmdLine.hasOption("port")) {
-					this.port = Integer.parseInt(cmdLine.getOptionValue("port"));
+					this.port = cmdLine.getOptionValue("port");
 				}
 			
 				if (cmdLine.hasOption("c")) {
@@ -92,7 +92,7 @@ public class ClientCli {
 	  * @return Get the remote port 
      */
 
-	public int port() {
+	public String getPort() {
 		return this.port;
 	}
 
