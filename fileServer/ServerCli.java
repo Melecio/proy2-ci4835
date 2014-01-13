@@ -9,7 +9,6 @@
   */
 
 import org.apache.commons.cli.*;
-import java.io.OutputStream;
 
 public class ServerCli {
 
