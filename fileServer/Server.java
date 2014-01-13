@@ -19,20 +19,23 @@ public class Server {
      * Class constructor
      */
 
-	public Server() {
+	public Server(int lport, String name) {
 		try {
-			LocateRegistry.createRegistry(0000);
+			LocateRegistry.createRegistry(lport);
 			ClientServerInterface csi = new ClientServerImpl("Server");
-			Naming.rebind("rmi://localhost:0000/Server", csi);
+			Naming.rebind(name, csi);
 		} catch(Exception e) {
-			System.out.println("FileServer: "+e.getMessage());
+			System.out.println("File Server: "+e.getMessage());
 			e.printStackTrace();
 		}
 	}	
 
 	public static void main(String argv[]) {
-		ServerCli sCli = new ServerCli(argv);
-		String lport = sCli.getLport();
-		String rport = sCli.getRport();
+		ServerCli scli = new ServerCli(argv);
+		String lport = scli.getLport();
+		String rport = scli.getRport();
+		String host = scli.getHost();
+		String name = "rmi://"+host+":"+lport+"/Server";
+		Server server = new Server(Integer.parseInt(lport),name);
 	}
 }

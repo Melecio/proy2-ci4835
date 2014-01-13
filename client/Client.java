@@ -14,6 +14,21 @@ import java.util.Scanner;
 
 public class Client {
 
+	private void executeBaj(ClientServerInterface csi, String filename) {
+		try {
+			byte[] filedata = csi.download(filename);
+			File file = new File(filename);
+			BufferedOutputStream output =
+				 new BufferedOutputStream(new FileOutputStream(file.getName()));
+			output.write(filedata,0,filedata.length);
+			output.flush();
+			output.close();
+		} catch (Exception e) {
+			System.err.println("FileServer exception: "+ e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String argv[]) {
 		ClientCli cc = new ClientCli(argv);	
 		String host = cc.getHost();
@@ -21,7 +36,7 @@ public class Client {
 		String path = "rmi://"+host+":"+port+"/Server";	
 		
 		try {	
-			//ClientServerInterface csi = (ClientServerInterface) Naming.lookup(path);
+			ClientServerInterface csi = (ClientServerInterface) Naming.lookup(path);
 			System.out.println(path);
 			Scanner sc = new Scanner(System.in);
 
@@ -35,11 +50,12 @@ public class Client {
 					System.out.println("Se ejecuta lls");
 					continue;
 				}
-				if (input.equals("baj")) {
-					System.out.println("Se ejecuta baj");
+				if (input.matches("baj\\s+.+")) {
+					String filename = input.split("\\s+")[1];
+					new Client().executeBaj(csi, filename);
 					continue;
 				}
-				if (input.equals("bor")) {
+				if (input.matches("bor\\s+[A-Za-z0-9]+")) {
 					System.out.println("Se ejecuta bor");
 					continue;
 				}
