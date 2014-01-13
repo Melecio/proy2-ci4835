@@ -13,9 +13,9 @@ import java.io.OutputStream;
 
 public class ServerCli {
 
-	private String host = "localhost";  
-	private int rport = 0; //remote port	
-	private int lport = 0; //local port
+	private String host = "";  
+	private String rport = ""; //remote port	
+	private String lport = ""; //local port
 
 	public ServerCli (String argv[]) {
 
@@ -54,11 +54,11 @@ public class ServerCli {
 				}
 
 				if (cmdLine.hasOption("l")) {
-					this.lport = Integer.parseInt(cmdLine.getOptionValue("l"));
+					this.lport = cmdLine.getOptionValue("l");
 				}
 				
 				if (cmdLine.hasOption("r")) {
-					this.rport = Integer.parseInt(cmdLine.getOptionValue("r"));
+					this.rport = cmdLine.getOptionValue("r");
 				}
 
 			} catch (Exception e) {
@@ -80,7 +80,7 @@ public class ServerCli {
 	  * @return Get the remote port 
      */
 
-	public int getRport() {
+	public String getRport() {
 		return this.rport;
 	}
 
@@ -88,7 +88,7 @@ public class ServerCli {
 	  * @return Get the local port 
      */
 
-	public int getLport() {
+	public String getLport() {
 		return this.lport;
 	}
 

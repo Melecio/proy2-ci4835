@@ -21,9 +21,9 @@ public class Server {
 
 	public Server() {
 		try {
-			LocateRegistry.createRegistry(21000);
+			LocateRegistry.createRegistry(0000);
 			ClientServerInterface csi = new ClientServerImpl("Server");
-			Naming.rebind("rmi://localhost:21000/Server", csi);
+			Naming.rebind("rmi://localhost:0000/Server", csi);
 		} catch(Exception e) {
 			System.out.println("FileServer: "+e.getMessage());
 			e.printStackTrace();
@@ -32,7 +32,7 @@ public class Server {
 
 	public static void main(String argv[]) {
 		ServerCli sCli = new ServerCli(argv);
-		int lport = sCli.getLport();
-		int rport = sCli.getRport();
+		String lport = sCli.getLport();
+		String rport = sCli.getRport();
 	}
 }
