@@ -16,10 +16,22 @@ public interface ClientServerInterface extends Remote {
 
 	/**
 	  * Download a file
-	  * @param fileName: name of file that client wants to download
+	  * @param filename: name of file that client wants to download
 	  * @return Every byte of file 
 	  */
 
-	public byte[] download(String fileName) throws RemoteException;  
+	public byte[] download(String filename) throws RemoteException;  
+
+	/**
+	  * Upload a file
+	  * @param filename: name of file that client wants to upload 
+	  */
+
 	public void upload(byte[] filedata, String filename) throws RemoteException;
+
+	/**
+	  * List files in file server
+	  */
+
+	public String listRemotesFiles() throws RemoteException;
 }

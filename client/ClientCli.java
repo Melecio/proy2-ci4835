@@ -50,8 +50,7 @@ public class ClientCli {
 				cmdLine = parser.parse(options, argv);
 				
 				if (cmdLine.hasOption("help")) {
-					new HelpFormatter().
-						printHelp("Client", options);
+					new HelpFormatter().printHelp("Client", options);
 					System.exit(0);
 				}
 
@@ -74,7 +73,7 @@ public class ClientCli {
 
 			} catch (Exception e) {
 				System.out.println("Unrecognized option. Please, try with:");
-				new HelpFormatter().printHelp("Server", options);
+				new HelpFormatter().printHelp("Client", options);
 				System.exit(0);
 			}
 	}
@@ -110,5 +109,4 @@ public class ClientCli {
 	public String commandsFile() {
 		return this.commandsFile;
 	}
-
 }

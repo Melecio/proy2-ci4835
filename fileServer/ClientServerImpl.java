@@ -18,15 +18,13 @@ public class ClientServerImpl
 		 extends UnicastRemoteObject 
 		 implements ClientServerInterface {
 
-	private String name;
 
 	/**
      * Class constructor
      */
 
-	public ClientServerImpl(String s) throws RemoteException {
+	public ClientServerImpl() throws RemoteException {
 		super();
-		name = s;
 	}
 
 	/**
@@ -51,7 +49,12 @@ public class ClientServerImpl
 			return null;
 		}
 	}
-	
+
+	/**
+	  * Upload a file
+	  * @param filename: name of file that client wants to upload 
+	  */
+
 	public void upload(byte[] filedata, String filename) {
 		try {
 			File file = new File(filename);	
@@ -64,5 +67,23 @@ public class ClientServerImpl
 			System.out.println("FileImpl: "+e.getMessage());
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	  * List files in file server
+     * @return String with every file name
+	  */
+
+	public String listRemotesFiles() {
+		String filesStr = "";
+		File dir = new File(".");
+		File[] filesList = dir.listFiles();
+		System.out.println("These are your locals files:");
+			for (File file : filesList) {
+				if (file.isFile()) {
+					filesStr = filesStr + file.getName() + "\n";
+				}
+			}
+		return filesStr;
 	}
 }

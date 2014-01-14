@@ -13,7 +13,7 @@ import java.rmi.*;
 import java.util.Scanner;
 
 public class Client {
-
+	
 	private void executeLls() {
 		File dir = new File(".");
 		File[] filesList = dir.listFiles();
@@ -24,6 +24,7 @@ public class Client {
 				}
 			}
 	}
+
 	private void executeBaj(ClientServerInterface csi, String filename) {
 		try {
 			byte[] filedata = csi.download(filename);
@@ -39,7 +40,7 @@ public class Client {
 		}
 	}
 
-	public void executeSub(ClientServerInterface csi, String filename) {
+	private void executeSub(ClientServerInterface csi, String filename) {
 		try {
 			File file = new File(filename);
 			byte buffer[] = new byte[(int)file.length()];
@@ -54,11 +55,21 @@ public class Client {
 		}
 	}
 
+	private void printInfo() {
+		System.out.println("These are the commands you can use:");
+		System.out.println("   lls         :  list all locals files");
+		System.out.println("   rls         :  list all remotes files");
+		System.out.println("   sub <file>  :  upload <file> to file server");
+		System.out.println("   baj <file>  :  download <file> from file server");
+		System.out.println("   bor <file>  :  delete <file> from file server");
+		System.out.println("   sal         :  ends client program execution");
+	}
+
 	public static void main(String argv[]) {
 		ClientCli cc = new ClientCli(argv);	
 		String host = cc.getHost();
 		String port = cc.getPort();
-		String path = "rmi://"+host+":"+port+"/Server";	
+		String path = "rmi://"+host+":"+port+"/Server";
 		
 		try {	
 			ClientServerInterface csi = (ClientServerInterface) Naming.lookup(path);
@@ -67,8 +78,9 @@ public class Client {
 
 			while (true) {       //main loop
 				String input = sc.nextLine();	
-				if (input.equals("rls")) {
-					System.out.println("Se ejecuta rls");
+				if ((input.trim()).equals("rls")) {
+					System.out.println("These are all server files");
+					System.out.print(csi.listRemotesFiles());
 					continue;
 				}
 				if ((input.trim()).equals("lls")) {
@@ -91,8 +103,8 @@ public class Client {
 					System.out.println("Se ejecuta bor");
 					continue;
 				}
-				if (input.equals("info")) {
-					System.out.println("Se ejecuta info");
+				if ((input.trim()).equals("info")) {
+					new Client().printInfo();
 					continue;
 				}
 				if (input.equals("sal")) {

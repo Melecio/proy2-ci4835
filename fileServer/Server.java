@@ -22,7 +22,7 @@ public class Server {
 	public Server(int lport, String name) {
 		try {
 			LocateRegistry.createRegistry(lport);
-			ClientServerInterface csi = new ClientServerImpl("Server");
+			ClientServerInterface csi = new ClientServerImpl();
 			Naming.rebind(name, csi);
 		} catch(Exception e) {
 			System.out.println("File Server: "+e.getMessage());
