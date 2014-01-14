@@ -14,6 +14,16 @@ import java.util.Scanner;
 
 public class Client {
 
+	private void executeLls() {
+		File dir = new File(".");
+		File[] filesList = dir.listFiles();
+		System.out.println("These are your locals files:");
+			for (File file : filesList) {
+				if (file.isFile()) {
+					System.out.println(file.getName());
+				}
+			}
+	}
 	private void executeBaj(ClientServerInterface csi, String filename) {
 		try {
 			byte[] filedata = csi.download(filename);
@@ -61,8 +71,8 @@ public class Client {
 					System.out.println("Se ejecuta rls");
 					continue;
 				}
-				if (input.equals("lls")) {
-					System.out.println("Se ejecuta lls");
+				if ((input.trim()).equals("lls")) {
+					new Client().executeLls();
 					continue;
 				}
 				if (input.matches("baj\\s+.+")) {
