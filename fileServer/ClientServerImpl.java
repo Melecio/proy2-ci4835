@@ -78,12 +78,11 @@ public class ClientServerImpl
 		String filesStr = "";
 		File dir = new File(".");
 		File[] filesList = dir.listFiles();
-		System.out.println("These are your locals files:");
-			for (File file : filesList) {
-				if (file.isFile()) {
-					filesStr = filesStr + file.getName() + "\n";
-				}
+		for (File file : filesList) {
+			if (file.isFile()) {
+				filesStr = filesStr + file.getName() + "\n";
 			}
+		}
 		return filesStr;
 	}
 }
