@@ -112,12 +112,20 @@ public class ClientServerImpl
 	  * Authenticates user
 	  * @param username: name of user that is gonna be authenticated
 	  * @param password: password of user that is gonna be authenticated
+	  * @return True, if authenticated. False in any other case
 	  */
 
 
 	public boolean authenticate(String username, 
-										 String password) throws RemoteException {
-		return new AuthServer().authenticate(username,password);
+										 String password,
+										 String path) throws RemoteException {
+		try {
+			AuthServerInterface asi = (AuthServerInterface) Naming.lookup(path);
+			return asi.authenticate(username, password);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 

@@ -25,9 +25,10 @@ public class Client {
 			}
 	}
 
-	private void executeBaj(ClientServerInterface csi, String filename) {
+	private void executeBaj(String username, String password, 
+									ClientServerInterface csi, String filename) {
 		try {
-			byte[] filedata = csi.download(filename);
+			byte[] filedata = csi.download(username, password, filename);
 			File file = new File(filename);
 			BufferedOutputStream output =
 				 new BufferedOutputStream(new FileOutputStream(file.getName()));
@@ -40,7 +41,8 @@ public class Client {
 		}
 	}
 
-	private void executeSub(ClientServerInterface csi, String filename) {
+	private void executeSub(String username, String password, 
+									ClientServerInterface csi, String filename) {
 		try {
 			File file = new File(filename);
 			byte buffer[] = new byte[(int)file.length()];
@@ -48,7 +50,7 @@ public class Client {
 				BufferedInputStream(new FileInputStream(filename));
 			input.read(buffer,0,buffer.length);
 			input.close();
-			csi.upload(buffer,filename);
+			csi.upload(username, password, buffer,filename);
 		} catch (Exception e) {
 			System.out.println("FileImpl: "+e.getMessage());
 			e.printStackTrace();
@@ -70,6 +72,8 @@ public class Client {
 		String host = cc.getHost();
 		String port = cc.getPort();
 		String path = "rmi://"+host+":"+port+"/Server";
+		String username = "";
+		String password = "";
 		
 		try {	
 			ClientServerInterface csi = (ClientServerInterface) Naming.lookup(path);
@@ -80,7 +84,7 @@ public class Client {
 				String input = sc.nextLine();	
 				if ((input.trim()).equals("rls")) {
 					System.out.println("These are all server files");
-					System.out.print(csi.listRemotesFiles());
+					System.out.print(csi.listRemotesFiles(username, password));
 					continue;
 				}
 
@@ -91,18 +95,18 @@ public class Client {
 
 				if (input.matches("baj\\s+.+")) {
 					String filename = input.split("\\s+")[1];
-					new Client().executeBaj(csi, filename);
+					new Client().executeBaj(username, password, csi, filename);
 					continue;
 				}
 
 				if (input.matches("sub\\s+.+")) {
 					String filename = input.split("\\s+")[1];
-					new Client().executeSub(csi, filename);
+					new Client().executeSub(username, password, csi, filename);
 					continue;
 				}
 
 				if (input.matches("bor\\s+.+")) {
-					if (! csi.delete(input.split("\\s+")[1])) {
+					if (! csi.delete(username, password, input.split("\\s+")[1])) {
 						System.out.print("You can't delete that file. ");
 						System.out.print("You can just delete your own file ");
 						System.out.println("in server");

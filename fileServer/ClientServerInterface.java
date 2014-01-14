@@ -55,9 +55,11 @@ public interface ClientServerInterface extends Remote {
 	  * Authenticates user
 	  * @param username: name of user that is gonna be authenticated
 	  * @param password: password of user that is gonna be authenticated
+	  * @return True, if authenticated. False in any other case
 	  */
 
 
 	public boolean authenticate(String username, 
-										 String password) throws RemoteException; 
+										 String password,
+										 String path) throws RemoteException; 
 }

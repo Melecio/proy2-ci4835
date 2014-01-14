@@ -5,23 +5,21 @@
   *
   * @section Description
   *
-  * This is the Client Command Line Interface 
+  * This is the Auth Server Command Line Interface 
   */
 
 import org.apache.commons.cli.*;
 
-public class ClientCli {
+public class AuthServerCli {
 
-	private String host = "";  
-	private String port = "";
-	private String usersFile = ""; //filename of users and passwords
-	private String commandsFile = ""; //filename of commands
+	private String usersFile = "";  //filename of users and passwords
+	private String port = ""; //port 
 
 	/**
      * Class constructor
      */
 
-	public ClientCli (String argv[]) {
+	public AuthServerCli (String argv[]) {
 
 			Options options = new Options();
 			CommandLineParser parser = null;
@@ -31,15 +29,8 @@ public class ClientCli {
 			info = "Filename of users and passwords";
 			options.addOption("f", "users", true, info);
 
-			info = "DNS name or IP where file server is running";
-			options.addOption("m", "host", true , info);			
-
 			info = "Port used by rmiregistry";
 			options.addOption("p", "port", true, info);
-
-			info = "Name of the commands file. ";
-			info = "Needed if client wants to run commands automatically";
-			options.addOption("c", true, info);
 
 			info = "Print Help";
 			options.addOption("help", false, info);
@@ -58,55 +49,33 @@ public class ClientCli {
 					this.usersFile = cmdLine.getOptionValue("users");
 				}
 
-				if (cmdLine.hasOption("host")) {
-					this.host = cmdLine.getOptionValue("host");
-				}
-				
 				if (cmdLine.hasOption("port")) {
 					this.port = cmdLine.getOptionValue("port");
 				}
 			
-				if (cmdLine.hasOption("c")) {
-					this.commandsFile = cmdLine.getOptionValue("c");
-				}
-			
-
 			} catch (Exception e) {
 				System.out.println("Unrecognized option. Please, try with:");
-				new HelpFormatter().printHelp("Client", options);
+				new HelpFormatter().printHelp("AuthServer", options);
 				System.exit(0);
 			}
 	}
 
+	
+
 	/**
-	  * @return Get the host 
+	  * @return Get users and passwords file name
      */
 
-	public String getHost() {
-		return this.host;
+	public String getUsersFile() {
+		return this.usersFile;
 	}
 
 	/**
-	  * @return Get the remote port 
+	  * @return Get port 
      */
 
 	public String getPort() {
 		return this.port;
 	}
 
-	/**
-	  * @return Get users and passwords file name
-     */
-
-	public String usersFile() {
-		return this.usersFile;
-	}
-
-	/**
-	  * @return Get the commands file name
-     */
-
-	public String commandsFile() {
-		return this.commandsFile;
-	}
 }

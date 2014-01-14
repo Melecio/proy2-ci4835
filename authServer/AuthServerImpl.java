@@ -26,16 +26,19 @@ public class AuthServerImpl
      * Class constructor
      */
 	
-	public AuthServerImpl(String passwd) throws RemoteException {
+	public AuthServerImpl(String usersFile) throws RemoteException {
 		super();
-		this.dict = new Hastable<String, String>();
-		File file = new File(passwd);		
-		Scanner sc = new Scanner(file);
-		while (sc.hasNextLine()) {
-     		String line = sc.nextLine();
-			this.dict.put(line.split(":")[0],line.split(":")[1]);
-      	}
+		this.dict = new Hashtable<String, String>();
+		File file = new File(usersFile);		
+		try {
+			Scanner sc = new Scanner(file);
+			while (sc.hasNextLine()) {
+				String line = sc.nextLine();
+				this.dict.put(line.split(":")[0],line.split(":")[1]);
+			}
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
