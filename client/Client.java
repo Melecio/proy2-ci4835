@@ -83,10 +83,12 @@ public class Client {
 					System.out.print(csi.listRemotesFiles());
 					continue;
 				}
+
 				if ((input.trim()).equals("lls")) {
 					new Client().executeLls();
 					continue;
 				}
+
 				if (input.matches("baj\\s+.+")) {
 					String filename = input.split("\\s+")[1];
 					new Client().executeBaj(csi, filename);
@@ -110,10 +112,12 @@ public class Client {
 					System.out.println("File was deleted successfully");
 					continue;
 				}
+
 				if ((input.trim()).equals("info")) {
 					new Client().printInfo();
 					continue;
 				}
+				
 				if (input.equals("sal")) {
 					System.exit(0);
 				}

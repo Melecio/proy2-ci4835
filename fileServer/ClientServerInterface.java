@@ -20,14 +20,18 @@ public interface ClientServerInterface extends Remote {
 	  * @return Every byte of file 
 	  */
 
-	public byte[] download(String filename) throws RemoteException;  
+	public byte[] download(String username, 
+								  String password, 
+								  String filename) throws RemoteException;  
 
 	/**
 	  * Upload a file
 	  * @param filename: name of file that client wants to upload 
 	  */
 
-	public void upload(byte[] filedata, String filename) throws RemoteException;
+	public void upload(String username, 
+							 String password, 
+						    byte[] filedata, String filename) throws RemoteException;
 	
 	/**
 	  * Delete a file
@@ -35,12 +39,25 @@ public interface ClientServerInterface extends Remote {
 	  * @return True, if file was deleted successfully. False in any other case
 	  */
 
-	public boolean delete(String filename) throws RemoteException;
+	public boolean delete(String username, 
+							    String password, 
+								 String filename) throws RemoteException;
 	
 
 	/**
 	  * List files in file server
 	  */
 
-	public String listRemotesFiles() throws RemoteException;
+	public String listRemotesFiles(String username,
+											 String password) throws RemoteException;
+
+	/**
+	  * Authenticates user
+	  * @param username: name of user that is gonna be authenticated
+	  * @param password: password of user that is gonna be authenticated
+	  */
+
+
+	public boolean authenticate(String username, 
+										 String password) throws RemoteException; 
 }

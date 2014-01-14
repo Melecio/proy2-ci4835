@@ -13,11 +13,13 @@
 import java.io.*;
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Hashtable;
 
 public class ClientServerImpl 
 		 extends UnicastRemoteObject 
 		 implements ClientServerInterface {
 
+	Hashtable<String, String> dict; //dictionary <file, owner>
 
 	/**
      * Class constructor
@@ -25,6 +27,7 @@ public class ClientServerImpl
 
 	public ClientServerImpl() throws RemoteException {
 		super();
+		dict = new Hashtable<String, String>();
 	}
 
 	/**
@@ -33,7 +36,9 @@ public class ClientServerImpl
 	  * @return Every byte of file 
 	  */
 
-	public byte[] download(String filename) {
+	public byte[] download(String username, 
+								  String password, 
+    							  String filename) throws RemoteException {
 
 		try {
 			File file = new File(filename);
@@ -55,7 +60,10 @@ public class ClientServerImpl
 	  * @param filename: name of file that client wants to upload 
 	  */
 
-	public void upload(byte[] filedata, String filename) {
+	public void upload(String username, 
+						    String password, 
+						    byte[] filedata, 
+	 						 String filename) throws RemoteException {
 		try {
 			File file = new File(filename);	
 			BufferedOutputStream output =
@@ -75,7 +83,9 @@ public class ClientServerImpl
 	  * @return True, if file was deleted successfully. False in any other case
 	  */
 
-	public boolean delete(String filename) throws RemoteException {
+	public boolean delete(String username, 
+						       String password, 
+                         String filename) throws RemoteException {
 		return (new File(filename)).delete();
 	}
 	
@@ -85,7 +95,8 @@ public class ClientServerImpl
      * @return String with every file name
 	  */
 
-	public String listRemotesFiles() {
+	public String listRemotesFiles(String username, 
+											 String password) throws RemoteException {
 		String filesStr = "";
 		File dir = new File(".");
 		File[] filesList = dir.listFiles();
@@ -96,4 +107,18 @@ public class ClientServerImpl
 		}
 		return filesStr;
 	}
+
+	/**
+	  * Authenticates user
+	  * @param username: name of user that is gonna be authenticated
+	  * @param password: password of user that is gonna be authenticated
+	  */
+
+
+	public boolean authenticate(String username, 
+										 String password) throws RemoteException {
+		return new AuthServer().authenticate(username,password);
+	}
+
+
 }
