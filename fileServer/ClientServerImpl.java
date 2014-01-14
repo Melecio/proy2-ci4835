@@ -31,24 +31,38 @@ public class ClientServerImpl
 
 	/**
 	  * Download a file
-	  * @param fileName: name of file that client wants to download
+	  * @param filename: name of file that client wants to download
 	  * @return Every byte of file 
 	  */
 
-	public byte[] download(String fileName) {
+	public byte[] download(String filename) {
 
 		try {
-			File file = new File(fileName);
+			File file = new File(filename);
 			byte buffer[] = new byte[(int)file.length()];
 			BufferedInputStream input = new
-			BufferedInputStream(new FileInputStream(fileName));
+				BufferedInputStream(new FileInputStream(filename));
 			input.read(buffer,0,buffer.length);
 			input.close();
 			return(buffer);
 		} catch(Exception e){
 			System.out.println("FileImpl: "+e.getMessage());
 			e.printStackTrace();
-			return(null);
+			return null;
+		}
+	}
+	
+	public void upload(byte[] filedata, String filename) {
+		try {
+			File file = new File(filename);	
+			BufferedOutputStream output =
+				new BufferedOutputStream(new FileOutputStream(filename));
+			output.write(filedata,0,filedata.length);
+			output.flush();
+			output.close();
+		} catch (Exception e) {
+			System.out.println("FileImpl: "+e.getMessage());
+			e.printStackTrace();
 		}
 	}
 }

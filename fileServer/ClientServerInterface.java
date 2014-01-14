@@ -21,5 +21,5 @@ public interface ClientServerInterface extends Remote {
 	  */
 
 	public byte[] download(String fileName) throws RemoteException;  
-
+	public void upload(byte[] filedata, String filename) throws RemoteException;
 }

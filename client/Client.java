@@ -29,6 +29,21 @@ public class Client {
 		}
 	}
 
+	public void executeSub(ClientServerInterface csi, String filename) {
+		try {
+			File file = new File(filename);
+			byte buffer[] = new byte[(int)file.length()];
+			BufferedInputStream input = new
+				BufferedInputStream(new FileInputStream(filename));
+			input.read(buffer,0,buffer.length);
+			input.close();
+			csi.upload(buffer,filename);
+		} catch (Exception e) {
+			System.out.println("FileImpl: "+e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String argv[]) {
 		ClientCli cc = new ClientCli(argv);	
 		String host = cc.getHost();
@@ -55,6 +70,13 @@ public class Client {
 					new Client().executeBaj(csi, filename);
 					continue;
 				}
+
+				if (input.matches("sub\\s+.+")) {
+					String filename = input.split("\\s+")[1];
+					new Client().executeSub(csi, filename);
+					continue;
+				}
+
 				if (input.matches("bor\\s+[A-Za-z0-9]+")) {
 					System.out.println("Se ejecuta bor");
 					continue;
