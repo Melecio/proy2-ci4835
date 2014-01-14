@@ -70,6 +70,17 @@ public class ClientServerImpl
 	}
 
 	/**
+	  * Delete a file
+	  * @param filename: name of file that client wants to delete 
+	  * @return True, if file was deleted successfully. False in any other case
+	  */
+
+	public boolean delete(String filename) throws RemoteException {
+		return (new File(filename)).delete();
+	}
+	
+
+	/**
 	  * List files in file server
      * @return String with every file name
 	  */

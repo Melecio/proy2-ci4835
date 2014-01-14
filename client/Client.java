@@ -99,8 +99,15 @@ public class Client {
 					continue;
 				}
 
-				if (input.matches("bor\\s+[A-Za-z0-9]+")) {
-					System.out.println("Se ejecuta bor");
+				if (input.matches("bor\\s+.+")) {
+					if (! csi.delete(input.split("\\s+")[1])) {
+						System.out.print("You can't delete that file. ");
+						System.out.print("You can just delete your own file ");
+						System.out.println("in server");
+						continue;
+					}
+
+					System.out.println("File was deleted successfully");
 					continue;
 				}
 				if ((input.trim()).equals("info")) {

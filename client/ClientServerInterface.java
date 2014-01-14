@@ -28,6 +28,15 @@ public interface ClientServerInterface extends Remote {
 	  */
 
 	public void upload(byte[] filedata, String filename) throws RemoteException;
+	
+	/**
+	  * Delete a file
+	  * @param filename: name of file that client wants to delete 
+	  * @return True, if file was deleted successfully. False in any other case
+	  */
+
+	public boolean delete(String filename) throws RemoteException;
+	
 
 	/**
 	  * List files in file server
