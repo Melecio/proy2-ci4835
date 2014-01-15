@@ -20,15 +20,21 @@ public class ClientServerImpl
 		 implements ClientServerInterface {
 
 	Hashtable<String, String> dict; //dictionary <file, owner>
+    AuthServerInterface asi;
 
 	/**
      * Class constructor
      */
 
-	public ClientServerImpl() throws RemoteException {
+	public ClientServerImpl(String path) throws RemoteException {
 		super();
 		dict = new Hashtable<String, String>();
-	}
+        try {
+            asi = (AuthServerInterface) Naming.lookup(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 	/**
 	  * Download a file
@@ -71,6 +77,7 @@ public class ClientServerImpl
 			output.write(filedata,0,filedata.length);
 			output.flush();
 			output.close();
+            this.dict.put(filename, username);
 		} catch (Exception e) {
 			System.out.println("FileImpl: "+e.getMessage());
 			e.printStackTrace();
@@ -86,7 +93,11 @@ public class ClientServerImpl
 	public boolean delete(String username, 
 						       String password, 
                          String filename) throws RemoteException {
-		return (new File(filename)).delete();
+        if (this.dict.get(filename).equals(username)) {
+            return (new File(filename)).delete();
+            
+        }
+        return false;
 	}
 	
 
@@ -117,15 +128,9 @@ public class ClientServerImpl
 
 
 	public boolean authenticate(String username, 
-										 String password,
-										 String path) throws RemoteException {
-		try {
-			AuthServerInterface asi = (AuthServerInterface) Naming.lookup(path);
-			return asi.authenticate(username, password);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
+								String password
+                                ) throws RemoteException {
+        return asi.authenticate(username, password);
 	}
 
 

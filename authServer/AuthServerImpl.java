@@ -50,6 +50,6 @@ public class AuthServerImpl
 
 	public boolean authenticate(String username, 
 										 String password) throws RemoteException {
-		return (this.dict.get(username) == password); 
+       return (this.dict.get(username).equals(password)); 
 	}
 }

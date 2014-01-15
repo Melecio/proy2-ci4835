@@ -5,3 +5,6 @@
 s_rmifs
 c_rmifs
 a_rmifs
+*.txt
+*.cache
+users

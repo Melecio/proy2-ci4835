@@ -19,10 +19,10 @@ public class Server {
      * Class constructor
      */
 
-	public Server(int lport, String name) {
+	public Server(int lport, String name, String rname ) {
 		try {
 			LocateRegistry.createRegistry(lport);
-			ClientServerInterface csi = new ClientServerImpl();
+			ClientServerInterface csi = new ClientServerImpl(rname);
 			Naming.rebind(name, csi);
 		} catch(Exception e) {
 			System.out.println("File Server: "+e.getMessage());
@@ -36,6 +36,7 @@ public class Server {
 		String rport = scli.getRport();
 		String host = scli.getHost();
 		String name = "rmi://"+host+":"+lport+"/Server";
-		Server server = new Server(Integer.parseInt(lport),name);
+		String rname = "rmi://"+host+":"+rport+"/AuthServer";        
+		Server server = new Server(Integer.parseInt(lport), name, rname);
 	}
 }

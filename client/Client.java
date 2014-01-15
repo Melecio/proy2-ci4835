@@ -71,17 +71,54 @@ public class Client {
 		ClientCli cc = new ClientCli(argv);	
 		String host = cc.getHost();
 		String port = cc.getPort();
+        String userFile = cc.usersFile();
 		String path = "rmi://"+host+":"+port+"/Server";
+        String authPath = "rmi://"+host+":";
 		String username = "";
 		String password = "";
-		
+        Scanner sc = new Scanner(System.in);
+        
+        if (!userFile.isEmpty()) {
+           File file = new File(userFile);
+
+           try {
+              Scanner fsc = new Scanner(file);
+              String line = fsc.nextLine();
+              username = line.split(":")[0];
+              password = line.split(":")[1];
+           } catch (FileNotFoundException e) {
+              e.printStackTrace();
+           }
+        } else {
+           System.out.print("Username: ");
+           username = sc.nextLine();
+           System.out.print("Password: ");
+           password = sc.nextLine();
+        }
+
 		try {	
 			ClientServerInterface csi = (ClientServerInterface) Naming.lookup(path);
 			System.out.println(path);
-			Scanner sc = new Scanner(System.in);
+            int numTry = 0;
+            boolean validUser = false;
+
+            while (numTry != 2 && !validUser) {
+               validUser = csi.authenticate(username, password);
+               System.out.println(validUser);
+               if (!validUser) {
+                  System.out.println("User not valid");
+                  numTry += 1;
+                  System.out.print("Username: ");
+                  username = sc.nextLine();
+                  System.out.print("Password: ");
+                  password = sc.nextLine();
+               }
+            }
 
 			while (true) {       //main loop
 				String input = sc.nextLine();	
+                
+                
 				if ((input.trim()).equals("rls")) {
 					System.out.println("These are all server files");
 					System.out.print(csi.listRemotesFiles(username, password));

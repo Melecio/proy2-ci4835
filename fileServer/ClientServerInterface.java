@@ -60,6 +60,6 @@ public interface ClientServerInterface extends Remote {
 
 
 	public boolean authenticate(String username, 
-										 String password,
-										 String path) throws RemoteException; 
+								String password
+								) throws RemoteException; 
 }
