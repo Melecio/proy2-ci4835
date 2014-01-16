@@ -67,10 +67,65 @@ public class Client {
 		System.out.println("   sal         :  ends client program execution");
 	}
 
+    private void parseCmd(ClientServerInterface csi,
+                            String input,
+                            String username,
+                            String password) {
+        try {
+        if ((input.trim()).equals("rls")) {
+            System.out.println("These are all server files");
+            System.out.print(csi.listRemotesFiles(username, password));
+            return;
+        }
+
+        if ((input.trim()).equals("lls")) {
+            new Client().executeLls();
+            return;
+        }
+
+        if (input.matches("baj\\s+.+")) {
+            String filename = input.split("\\s+")[1];
+            new Client().executeBaj(username, password, csi, filename);
+            return;
+        }
+
+        if (input.matches("sub\\s+.+")) {
+            String filename = input.split("\\s+")[1];
+            new Client().executeSub(username, password, csi, filename);
+            return;
+        }
+
+        if (input.matches("bor\\s+.+")) {
+            if (! csi.delete(username, password, input.split("\\s+")[1])) {
+                System.out.print("You can't delete that file. ");
+                System.out.print("You can just delete your own file ");
+                System.out.println("in server");
+                return;
+            }
+
+            System.out.println("File was deleted successfully");
+            return;
+        }
+
+        if ((input.trim()).equals("info")) {
+            new Client().printInfo();
+            return;
+        }
+				
+        if (input.equals("sal")) {
+            System.exit(0);
+        }
+        } catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+
 	public static void main(String argv[]) {
-		ClientCli cc = new ClientCli(argv);	
+		ClientCli cc = new ClientCli(argv);
+        Client c = new Client();
 		String host = cc.getHost();
 		String port = cc.getPort();
+        String commFile = cc.commandsFile();
         String userFile = cc.usersFile();
 		String path = "rmi://"+host+":"+port+"/Server";
         String authPath = "rmi://"+host+":";
@@ -95,8 +150,7 @@ public class Client {
            System.out.print("Password: ");
            password = sc.nextLine();
         }
-
-
+        
 		try {	
 			ClientServerInterface csi = (ClientServerInterface) Naming.lookup(path);
 			System.out.println(path);
@@ -121,53 +175,23 @@ public class Client {
                 System.exit(0);
             }
 
+            if (!commFile.isEmpty()) {
+                File file = new File(commFile);
+                Scanner fsc;
+                try {
+                  fsc = new Scanner(file);
+                  while (fsc.hasNext()) {
+                    String input = fsc.nextLine();
+                    c.parseCmd(csi, input, username, password);
+                  }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
 			while (true) {       //main loop
 				String input = sc.nextLine();	
-                
-                
-				if ((input.trim()).equals("rls")) {
-					System.out.println("These are all server files");
-					System.out.print(csi.listRemotesFiles(username, password));
-					continue;
-				}
-
-				if ((input.trim()).equals("lls")) {
-					new Client().executeLls();
-					continue;
-				}
-
-				if (input.matches("baj\\s+.+")) {
-					String filename = input.split("\\s+")[1];
-					new Client().executeBaj(username, password, csi, filename);
-					continue;
-				}
-
-				if (input.matches("sub\\s+.+")) {
-					String filename = input.split("\\s+")[1];
-					new Client().executeSub(username, password, csi, filename);
-					continue;
-				}
-
-				if (input.matches("bor\\s+.+")) {
-					if (! csi.delete(username, password, input.split("\\s+")[1])) {
-						System.out.print("You can't delete that file. ");
-						System.out.print("You can just delete your own file ");
-						System.out.println("in server");
-						continue;
-					}
-
-					System.out.println("File was deleted successfully");
-					continue;
-				}
-
-				if ((input.trim()).equals("info")) {
-					new Client().printInfo();
-					continue;
-				}
-				
-				if (input.equals("sal")) {
-					System.exit(0);
-				}
+                c.parseCmd(csi, input, username, password);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

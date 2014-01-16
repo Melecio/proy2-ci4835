@@ -55,7 +55,7 @@ public class ClientServerImpl
 				BufferedInputStream(new FileInputStream(filename));
 			input.read(buffer,0,buffer.length);
 			input.close();
-            log.add("baj -- "+username + "\n");
+            log.add("baj " + filename  + " \t-- "+username + "\n");
 			return(buffer);
 		} catch(Exception e){
 			System.out.println("FileImpl: "+e.getMessage());
@@ -81,7 +81,7 @@ public class ClientServerImpl
 			output.flush();
 			output.close();
             this.dict.put(filename, username);
-            log.add("sub -- "+username + "\n");
+            log.add("sub " + filename  + " \t-- "+username + "\n");
 		} catch (Exception e) {
 			System.out.println("FileImpl: "+e.getMessage());
 			e.printStackTrace();
@@ -98,7 +98,7 @@ public class ClientServerImpl
                           String password, 
                           String filename) throws RemoteException {
         if (this.dict.get(filename).equals(username)) {
-            log.add("bor -- "+username + "\n");
+            log.add("bor " + filename  + " \t-- "+username + "\n");
             return (new File(filename)).delete();
         }
         return false;
@@ -120,7 +120,7 @@ public class ClientServerImpl
 				filesStr = filesStr + file.getName() + "\n";
 			}
 		}
-        log.add("rls -- "+username + "\n");
+        log.add("rls \t\t-- "+username + "\n");
 		return filesStr;
 	}
 
