@@ -96,6 +96,7 @@ public class Client {
            password = sc.nextLine();
         }
 
+
 		try {	
 			ClientServerInterface csi = (ClientServerInterface) Naming.lookup(path);
 			System.out.println(path);
@@ -106,13 +107,18 @@ public class Client {
                validUser = csi.authenticate(username, password);
                System.out.println(validUser);
                if (!validUser) {
-                  System.out.println("User not valid");
+                   System.out.println("User not valid");
                   numTry += 1;
                   System.out.print("Username: ");
                   username = sc.nextLine();
                   System.out.print("Password: ");
                   password = sc.nextLine();
                }
+            }
+
+            if (!validUser) {
+                System.out.println("You've exceeded the number of login attempts");
+                System.exit(0);
             }
 
 			while (true) {       //main loop

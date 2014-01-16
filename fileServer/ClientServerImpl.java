@@ -1,4 +1,4 @@
-/**
+ /**
   * @file
   * @author Gabriel Formica <gabriel@ac.labf.usb.ve>
   * @author Melecio Ponte <melecio@ac.labf.usb.ve>
@@ -8,12 +8,11 @@
   * This class implements methods defined in ClientServerInterface
   */
 
-
-
 import java.io.*;
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
+import java.util.ArrayList;
 
 public class ClientServerImpl 
 		 extends UnicastRemoteObject 
@@ -21,6 +20,8 @@ public class ClientServerImpl
 
 	Hashtable<String, String> dict; //dictionary <file, owner>
     AuthServerInterface asi;
+    ArrayList<String> log;
+    
 
 	/**
      * Class constructor
@@ -29,6 +30,7 @@ public class ClientServerImpl
 	public ClientServerImpl(String path) throws RemoteException {
 		super();
 		dict = new Hashtable<String, String>();
+        log = new ArrayList<String>();
         try {
             asi = (AuthServerInterface) Naming.lookup(path);
         } catch (Exception e) {
@@ -53,6 +55,7 @@ public class ClientServerImpl
 				BufferedInputStream(new FileInputStream(filename));
 			input.read(buffer,0,buffer.length);
 			input.close();
+            log.add("baj -- "+username + "\n");
 			return(buffer);
 		} catch(Exception e){
 			System.out.println("FileImpl: "+e.getMessage());
@@ -67,9 +70,9 @@ public class ClientServerImpl
 	  */
 
 	public void upload(String username, 
-						    String password, 
-						    byte[] filedata, 
-	 						 String filename) throws RemoteException {
+                       String password, 
+                       byte[] filedata, 
+                       String filename) throws RemoteException {
 		try {
 			File file = new File(filename);	
 			BufferedOutputStream output =
@@ -78,6 +81,7 @@ public class ClientServerImpl
 			output.flush();
 			output.close();
             this.dict.put(filename, username);
+            log.add("sub -- "+username + "\n");
 		} catch (Exception e) {
 			System.out.println("FileImpl: "+e.getMessage());
 			e.printStackTrace();
@@ -91,11 +95,11 @@ public class ClientServerImpl
 	  */
 
 	public boolean delete(String username, 
-						       String password, 
-                         String filename) throws RemoteException {
+                          String password, 
+                          String filename) throws RemoteException {
         if (this.dict.get(filename).equals(username)) {
+            log.add("bor -- "+username + "\n");
             return (new File(filename)).delete();
-            
         }
         return false;
 	}
@@ -107,7 +111,7 @@ public class ClientServerImpl
 	  */
 
 	public String listRemotesFiles(String username, 
-											 String password) throws RemoteException {
+                                   String password) throws RemoteException {
 		String filesStr = "";
 		File dir = new File(".");
 		File[] filesList = dir.listFiles();
@@ -116,6 +120,7 @@ public class ClientServerImpl
 				filesStr = filesStr + file.getName() + "\n";
 			}
 		}
+        log.add("rls -- "+username + "\n");
 		return filesStr;
 	}
 
@@ -126,12 +131,28 @@ public class ClientServerImpl
 	  * @return True, if authenticated. False in any other case
 	  */
 
-
 	public boolean authenticate(String username, 
 								String password
                                 ) throws RemoteException {
         return asi.authenticate(username, password);
 	}
 
+	/**
+	  * Gets log from user
+	  * @param username: name of user.
+	  * @param password: password of user.
+	  * @return True, if authenticated. False in any other case
+	  */
 
+    public String showLog() throws RemoteException {
+        String logString = "";
+        int logSize = log.size();
+        if  (logSize > 20) {
+            log.subList(0,logSize-20).clear();
+        }
+        for (String s : log) {
+            logString = logString + s;
+        }
+        return logString;
+    }
 }

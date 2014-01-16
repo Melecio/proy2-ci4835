@@ -21,8 +21,8 @@ public interface ClientServerInterface extends Remote {
 	  */
 
 	public byte[] download(String username, 
-								  String password, 
-								  String filename) throws RemoteException;  
+                           String password, 
+                           String filename) throws RemoteException;  
 
 	/**
 	  * Upload a file
@@ -30,8 +30,8 @@ public interface ClientServerInterface extends Remote {
 	  */
 
 	public void upload(String username, 
-							 String password, 
-						    byte[] filedata, String filename) throws RemoteException;
+                       String password, 
+                       byte[] filedata, String filename) throws RemoteException;
 	
 	/**
 	  * Delete a file
@@ -40,8 +40,8 @@ public interface ClientServerInterface extends Remote {
 	  */
 
 	public boolean delete(String username, 
-							    String password, 
-								 String filename) throws RemoteException;
+                          String password, 
+                          String filename) throws RemoteException;
 	
 
 	/**
@@ -49,7 +49,7 @@ public interface ClientServerInterface extends Remote {
 	  */
 
 	public String listRemotesFiles(String username,
-											 String password) throws RemoteException;
+                                   String password) throws RemoteException;
 
 	/**
 	  * Authenticates user
@@ -61,5 +61,12 @@ public interface ClientServerInterface extends Remote {
 
 	public boolean authenticate(String username, 
 								String password
-								) throws RemoteException; 
+								) throws RemoteException;
+
+    public String showLog() throws RemoteException;
+
 }
+
+
+
+
