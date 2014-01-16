@@ -188,7 +188,6 @@ public class Client {
                     e.printStackTrace();
                 }
             }
-
 			while (true) {       //main loop
 				String input = sc.nextLine();	
                 c.parseCmd(csi, input, username, password);
