@@ -13,13 +13,13 @@ import java.io.*;
 import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 
-public class AuthServer {
+public class a_rmifs {
 
 	/**
      * Class constructor
      */
 
-	public AuthServer(int port, String name, String usersFile) {
+	public a_rmifs(int port, String name, String usersFile) {
 		try {
 			LocateRegistry.createRegistry(port);
 			AuthServerInterface asi = new AuthServerImpl(usersFile);
@@ -43,8 +43,8 @@ public class AuthServer {
 			System.exit(0);
 		}
 		
-		String name = "rmi://localhost"+":"+port+"/AuthServer";
-		AuthServer authServer; 
-		authServer = new AuthServer(Integer.parseInt(port), name, usersFile);
+		String name = "rmi://localhost"+":"+port+"/a_rmifs";
+		a_rmifs authServer; 
+		authServer = new a_rmifs(Integer.parseInt(port), name, usersFile);
 	}
 }

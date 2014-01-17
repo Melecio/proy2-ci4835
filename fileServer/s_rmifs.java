@@ -14,13 +14,13 @@ import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.util.Scanner;
 
-public class Server {
+public class s_rmifs {
 
 	/**
      * Class constructor
      */
 
-	public Server(int lport, String name, String rname ) {
+	public s_rmifs(int lport, String name, String rname ) {
 		try {
 			LocateRegistry.createRegistry(lport);
 			ClientServerInterface csi = new ClientServerImpl(rname);
@@ -53,8 +53,8 @@ public class Server {
 		String lport = scli.getLport();
 		String rport = scli.getRport();
 		String host = scli.getHost();
-		String name = "rmi://"+host+":"+lport+"/Server";
-		String rname = "rmi://"+host+":"+rport+"/AuthServer";        
-		Server server = new Server(Integer.parseInt(lport), name, rname);
+		String name = "rmi://"+host+":"+lport+"/s_rmifs";
+		String rname = "rmi://"+host+":"+rport+"/a_rmifs";        
+		s_rmifs server = new s_rmifs(Integer.parseInt(lport), name, rname);
     }                
 }

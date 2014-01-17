@@ -12,12 +12,12 @@ import java.io.*;
 import java.rmi.*;
 import java.util.Scanner;
 
-public class Client {
+public class c_rmifs {
 	
 	private void executeLls() {
 		File dir = new File(".");
 		File[] filesList = dir.listFiles();
-		System.out.println("These are your locals files:");
+		System.out.println("---These are your local files---\n");
 			for (File file : filesList) {
 				if (file.isFile()) {
 					System.out.println(file.getName());
@@ -73,25 +73,25 @@ public class Client {
                             String password) {
         try {
         if ((input.trim()).equals("rls")) {
-            System.out.println("These are all server files");
+            System.out.println("---These are all server files---\n");
             System.out.print(csi.listRemotesFiles(username, password));
             return;
         }
 
         if ((input.trim()).equals("lls")) {
-            new Client().executeLls();
+            new c_rmifs().executeLls();
             return;
         }
 
         if (input.matches("baj\\s+.+")) {
             String filename = input.split("\\s+")[1];
-            new Client().executeBaj(username, password, csi, filename);
+            new c_rmifs().executeBaj(username, password, csi, filename);
             return;
         }
 
         if (input.matches("sub\\s+.+")) {
             String filename = input.split("\\s+")[1];
-            new Client().executeSub(username, password, csi, filename);
+            new c_rmifs().executeSub(username, password, csi, filename);
             return;
         }
 
@@ -108,7 +108,7 @@ public class Client {
         }
 
         if ((input.trim()).equals("info")) {
-            new Client().printInfo();
+            new c_rmifs().printInfo();
             return;
         }
 				
@@ -122,14 +122,14 @@ public class Client {
 
 	public static void main(String argv[]) {
 		ClientCli cc = new ClientCli(argv);
-        Client c = new Client();
+      c_rmifs c = new c_rmifs();
 		String host = "";
 		host = cc.getHost();
 		String port = "";
 		port = cc.getPort();
         String commFile = cc.commandsFile();
         String userFile = cc.usersFile();
-		String path = "rmi://"+host+":"+port+"/Server";
+		String path = "rmi://"+host+":"+port+"/s_rmifs";
         String authPath = "rmi://"+host+":";
 		String username = "";
 		String password = "";
@@ -159,13 +159,10 @@ public class Client {
         
 		try {	
 			ClientServerInterface csi = (ClientServerInterface) Naming.lookup(path);
-			System.out.println(path);
             int numTry = 0;
             boolean validUser = false;
-
             while (numTry != 2 && !validUser) {
                validUser = csi.authenticate(username, password);
-               System.out.println(validUser);
                if (!validUser) {
                    System.out.println("User not valid");
                   numTry += 1;
