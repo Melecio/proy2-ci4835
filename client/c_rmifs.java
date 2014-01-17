@@ -192,8 +192,9 @@ public class c_rmifs {
                 }
             }
 			while (true) {       //main loop
+				System.out.print("> ");
 				String input = sc.nextLine();	
-                c.parseCmd(csi, input, username, password);
+            c.parseCmd(csi, input, username, password);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

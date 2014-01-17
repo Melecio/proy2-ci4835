@@ -28,6 +28,7 @@ public class s_rmifs {
 
             Scanner sc = new Scanner(System.in);
             while (true) {
+					 System.out.print("> ");
                 String input = sc.nextLine();
                             
                 if ((input.trim()).equals("log")) {
@@ -50,9 +51,16 @@ public class s_rmifs {
 
 	public static void main(String argv[]) {
 		ServerCli scli = new ServerCli(argv);
-		String lport = scli.getLport();
-		String rport = scli.getRport();
-		String host = scli.getHost();
+		String lport = "";
+		lport = scli.getLport();
+		String rport = "";
+		rport =  scli.getRport();
+		String host = "";
+		host = scli.getHost();
+		if (host.equals("") || rport.equals("") || lport.equals("")) {
+			System.out.println("Server has to recieve -h, -r and -l parameters");
+			System.exit(0);
+		}
 		String name = "rmi://"+host+":"+lport+"/s_rmifs";
 		String rname = "rmi://"+host+":"+rport+"/a_rmifs";        
 		s_rmifs server = new s_rmifs(Integer.parseInt(lport), name, rname);
