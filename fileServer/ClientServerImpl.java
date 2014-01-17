@@ -97,7 +97,8 @@ public class ClientServerImpl
 	public boolean delete(String username, 
                           String password, 
                           String filename) throws RemoteException {
-        if (this.dict.get(filename).equals(username)) {
+        if ((this.dict.get(filename) != null) &&
+				 (this.dict.get(filename).equals(username))) {
             log.add("bor " + filename  + " \t-- "+username + "\n");
             return (new File(filename)).delete();
         }

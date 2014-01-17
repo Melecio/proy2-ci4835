@@ -32,8 +32,16 @@ public class AuthServer {
 
 	public static void main(String argv[]) {
 		AuthServerCli ascli = new AuthServerCli(argv);
-		String port = ascli.getPort();
-		String usersFile = ascli.getUsersFile();
+		String port = "";
+		port = ascli.getPort();
+		String usersFile = "";
+		usersFile = ascli.getUsersFile();
+		
+		if (usersFile.equals("") || port.equals("")) {
+			System.out.print("Auth server has to recieve -f and -p ");
+			System.out.println("parameters");
+			System.exit(0);
+		}
 		
 		String name = "rmi://localhost"+":"+port+"/AuthServer";
 		AuthServer authServer; 

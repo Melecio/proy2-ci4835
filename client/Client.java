@@ -123,8 +123,10 @@ public class Client {
 	public static void main(String argv[]) {
 		ClientCli cc = new ClientCli(argv);
         Client c = new Client();
-		String host = cc.getHost();
-		String port = cc.getPort();
+		String host = "";
+		host = cc.getHost();
+		String port = "";
+		port = cc.getPort();
         String commFile = cc.commandsFile();
         String userFile = cc.usersFile();
 		String path = "rmi://"+host+":"+port+"/Server";
@@ -132,7 +134,11 @@ public class Client {
 		String username = "";
 		String password = "";
         Scanner sc = new Scanner(System.in);
-        
+       
+		if (port.equals("") || host.equals("")) {
+			System.out.println("Client has to recieve -p and -m flags");
+			System.exit(0);
+		} 
         if (!userFile.isEmpty()) {
            File file = new File(userFile);
 
