@@ -17,7 +17,7 @@ El sistema se divide en tres directorios principales:
    - client: 
              *ClientCli.java: Clase que implementa una interfaz de usuario para el 
                               manejo del cliente.
-             *Client.java: Clase principal del cliente.
+             *c_rmifs.java: Clase principal del cliente.
              *ClientServerInterface.java: Interfaz para la implementación de métodos
                                           remotos de interacción con el servidor.
    - fileServer:
@@ -31,7 +31,7 @@ El sistema se divide en tres directorios principales:
              *AuthServerInterface.java: Interfaz para la implementación de métodos re-
                                         motos de interacción con el servidor de auten-
                                         ticación.
-             *Server.java: Clase princial del servidor.
+             *s_rmifs.java: Clase princial del servidor.
    - authServer:
              *AuthServerCli.java: Clase que implementa una interfaz de administración
                                   del servidor de autenticación.
@@ -41,7 +41,7 @@ El sistema se divide en tres directorios principales:
              *AuthServerImpl.java: Clase que implementa los métodos a ser llamados por
                                    el servidor de archivos para la autenticación de
                                    usuarios.
-             *AuthServer.java: Clase principal del servidor de autenticación.
+             *a_rmifs.java: Clase principal del servidor de autenticación.
 
 
 En la raíz del sistema se encuentra un makefile mediante el cual se hace la 
