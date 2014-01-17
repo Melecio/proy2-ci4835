@@ -17,7 +17,7 @@ public class Client {
 	private void executeLls() {
 		File dir = new File(".");
 		File[] filesList = dir.listFiles();
-		System.out.println("These are your locals files:");
+		System.out.println("---These are your local files---\n");
 			for (File file : filesList) {
 				if (file.isFile()) {
 					System.out.println(file.getName());
@@ -73,7 +73,7 @@ public class Client {
                             String password) {
         try {
         if ((input.trim()).equals("rls")) {
-            System.out.println("These are all server files");
+            System.out.println("---These are all server files---\n");
             System.out.print(csi.listRemotesFiles(username, password));
             return;
         }
@@ -153,13 +153,10 @@ public class Client {
         
 		try {	
 			ClientServerInterface csi = (ClientServerInterface) Naming.lookup(path);
-			System.out.println(path);
             int numTry = 0;
             boolean validUser = false;
-
             while (numTry != 2 && !validUser) {
                validUser = csi.authenticate(username, password);
-               System.out.println(validUser);
                if (!validUser) {
                    System.out.println("User not valid");
                   numTry += 1;
