@@ -1,0 +1,75 @@
+CI4835 - Redes de Computadoras I
+Gabriel Formica 10-11036
+Melecio Ponte 08-10893
+
+--Servidor de archivos de red con RMI--
+
+El presente proyecto presenta la implementación de un servidor de archivos,
+servidor de autenticación y cliente para el manejo de archivos de manera re-
+mota. 
+
+Los servidores y el cliente están implementados en el lenguaje java y hacen
+uso del protocolo RMI, provisto por el lenguaje.
+
+--Estructura de archivos--
+
+El sistema se divide en tres directorios principales:
+   - client: 
+             *ClientCli.java: Clase que implementa una interfaz de usuario para el 
+                              manejo del cliente.
+             *Client.java: Clase principal del cliente.
+             *ClientServerInterface.java: Interfaz para la implementación de métodos
+                                          remotos de interacción con el servidor.
+   - fileServer:
+             *ClientServerInterface.java: Interfaz para la implementación de métodos
+                                          remotos de interacción con el servidor de
+                                          archivos.
+             *ClientServerImpl.java: Implementación de la interfaz de los métodos
+                                     a ser llamados por el cliente.
+             *ServerCli.java: Clase que implementa una interfaz de administración del
+                              servidor.
+             *AuthServerInterface.java: Interfaz para la implementación de métodos re-
+                                        motos de interacción con el servidor de auten-
+                                        ticación.
+             *Server.java: Clase princial del servidor.
+   - authServer:
+             *AuthServerCli.java: Clase que implementa una interfaz de administración
+                                  del servidor de autenticación.
+             *AuthServerInterface.java: Interfaz para la implementación de métodos re-
+                                        motos de interacción con el servidor de auten-
+                                        ticación.
+             *AuthServerImpl.java: Clase que implementa los métodos a ser llamados por
+                                   el servidor de archivos para la autenticación de
+                                   usuarios.
+             *AuthServer.java: Clase principal del servidor de autenticación.
+
+
+En la raíz del sistema se encuentra un makefile mediante el cual se hace la 
+compilación del mismo a traves del comando «make».
+
+Para la implementación de este servidor no se utilizó la instrucción de rmiregistry,
+ya que la documentación expresaba que desde Java 1.5 esto no era necesario.
+
+La manera en la que funciona el sistema es la siguiente:
+
+--Se inicia el servidor de autenticación:
+     java a_rmifs -f usuarios -p puerto
+--Se inicia el servidor de archivos
+     java s_rmifs -l [puerto local] -h host -r [puerto del servidor de autenticación]
+--Se inicia el cliente
+     java c_rmifs -m [servidor de archivos] -p [puerto del servidor de archivos]
+
+Según las pruebas realizadas, no se detectó alguna limitación con respecto a los reque-
+rimientos solicitados inicialmente.
+
+Este proyecto fue probado en el sistema operativo Debian en sus versiones 6 y 7, con
+Java 1.6 y en la máquina «serena» del LDC.
+
+
+
+
+
+
+
+
+
